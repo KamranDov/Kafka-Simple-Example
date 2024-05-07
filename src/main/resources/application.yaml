@@ -1,0 +1,42 @@
+#application name
+spring:
+  application:
+    name: KafkaExample
+
+  kafka:
+    #producer config
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      # value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      properties:
+#        spring:
+#          json:
+#            type:
+#              mapping:
+#                ProductRequest: com.crocusoft.KafkaExample.dto.ProductRequest
+
+    #consumer config
+    consumer:
+      group-id: first-group
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      # value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          deserializer:
+            value:
+              delegate:
+                class: org.springframework.kafka.support.serializer.JsonDeserializer
+#          json:
+#            trusted:
+#              packages: *
+#            type:
+#              mapping:
+#                ProductRequest: com.crocusoft.KafkaExample.dto.ProductRequest
+
+    #topic config
+    topic:
+      name: first-topic
